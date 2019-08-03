@@ -1,7 +1,7 @@
 import { elements } from "./DomElements";
 
 // Truncate the string based on limit provided
-export const cutString = (str , limit=30) => {
+const cutString = (str , limit=30) => {
     if(str.length <= limit)
     {
         return str;
@@ -12,7 +12,7 @@ export const cutString = (str , limit=30) => {
 }
 
 // Update text content of given element
-export const updateElementContent = (ele, content) => {
+const updateElementContent = (ele, content) => {
     if(content === "")
     {
         ele.textContent = ".....";
@@ -53,7 +53,7 @@ let createElement = (todoItem) => {
     updateElementContent(dueDateEle,todoItem.dueDate);
 
     // add title to the required node
-    titleEle.setAttribute("title",todoItem.title);
+    titleEle.setAttribute("title",cutString(todoItem.title,30));
     descriptionEle.setAttribute("title",cutString(todoItem.description,60));
 
 
@@ -67,10 +67,17 @@ let createElement = (todoItem) => {
 // Render the To-Do Element in UI
 export const appendToDoItem = (todoItem) => {
 
-    // create the list element from given object
     let todoItemEle = createElement(todoItem);
-
-    //Display in UI
     elements.toDoItemsList.appendChild(todoItemEle);
+}
+
+export const updateExistingListItem = (id, updatedValues) => {
+    let listItemToUpdate = elements.toDoItemsList.querySelector(`#todo-list-item-${id}`);
+    updateElementContent(listItemToUpdate.querySelector('.title'),updatedValues.title);
+    updateElementContent(listItemToUpdate.querySelector('.description'),updatedValues.description);
+    updateElementContent(listItemToUpdate.querySelector('.due-date'),updatedValues.dueDate);  
+    
+    listItemToUpdate.querySelector('.title').setAttribute("title",cutString(updatedValues.title,30));
+    listItemToUpdate.querySelector('.description').setAttribute("title",cutString(updatedValues.description,70));
 }
 

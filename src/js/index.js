@@ -2,7 +2,7 @@ import ToDoItem from './models/ToDoItem'
 import {elements} from './views/DomElements'
 import * as ToDoAction from './views/ToDoItemActionView'
 import {initializeModal} from './controller/ModalController'
-import {appendToDoItem} from './views/ToDoItemListView'
+import { appendToDoItem , updateExistingListItem} from './views/ToDoItemListView'
 
 /***** State of Todo Items ******/ 
 
@@ -10,7 +10,7 @@ import {appendToDoItem} from './views/ToDoItemListView'
 const todoItemsBucket = {};
 
 // List of Todo Actions
-const todoActions = {
+export const todoActions = {
     delete: "delete",
     edit: "edit",
     markComplete : "mark-complete",
@@ -43,12 +43,12 @@ elements.calendarAppNavBar.addEventListener('click',function(event){
 /*** Initialize Modal Controller ****/
 window.addEventListener('load', function() {
     initializeModal('add-item-modal', 'add-new-todo');
-    initializeModal('delete-confirmation-modal', 'delete');
+    initializeModal('delete-confirmation-modal', 'delete-selected');
   });
 
 
 // Modify the todoitemlist bucket to maintain the state of the app
-function updateTodoItemBucket(action,idsToModify) {
+function updateTodoItemBucket(action,idsToModify,toDoItemInfo) {
     for(let id of idsToModify)
     {
         let todoItemObj = todoItemsBucket[id];
@@ -57,13 +57,18 @@ function updateTodoItemBucket(action,idsToModify) {
             switch(action)
             {
                 case todoActions.delete:
-                        delete todoItemsBucket[todoItemObj.id];
+                    delete todoItemsBucket[todoItemObj.id];
                     break;
                 case todoActions.markComplete:
-                    //todoItem.isCompleted=true;
-                    break; // Fix this 
+                    todoItemObj.isCompleted = !todoItemObj.isCompleted;
+                    break; 
                 case todoActions.edit:
-                    // add this 
+                    todoItemObj.title=toDoItemInfo.title;
+                    todoItemObj.description=toDoItemInfo.description;
+                    todoItemObj.dueDate=toDoItemInfo.dueDate;
+                    break;
+                case todoActions.markCompleteSelected:
+                    todoItemObj.isCompleted = true;
             }           
         }
     }
@@ -71,20 +76,24 @@ function updateTodoItemBucket(action,idsToModify) {
 
 /*** ToDo Actions Controller ****/
 
-// Add new Todo
-elements.saveTodoItem.addEventListener('click',()=>{
+// Add / Update  Todo
+elements.saveTodoItem.addEventListener('click',(event)=>{
     debugger;
     let itemInfo= ToDoAction.getTodoItemModalInfo();
+    if(Array.from(elements.saveTodoItem.classList).includes('save-todo-item')){
+        let newTodoItem= new ToDoItem(itemInfo.title,itemInfo.description,itemInfo.dueDate);
+        todoItemsBucket[newTodoItem.id] = newTodoItem;
+        ToDoAction.toggleEmptyContentMessage(Object.keys(todoItemsBucket).length);
+        appendToDoItem(newTodoItem);
+    }
+    else{
+        let id = event.target.parentNode.parentNode.parentNode.getAttribute('data-target').split('-')[1];
+        updateExistingListItem(id,itemInfo);
+        updateTodoItemBucket("edit",id,itemInfo);
+    }
 
-    let newTodoItem= new ToDoItem(itemInfo.title,itemInfo.description,itemInfo.due_date);
-    todoItemsBucket[newTodoItem.id] = newTodoItem;
-
-    // remove empty content and display the list container 
-    ToDoAction.toggleEmptyContentMessage(Object.keys(todoItemsBucket).length);
+    // Toggle the Modal
     elements.addTodoItemModal.classList.toggle("show-modal");
-  
-    // render the todo item in ui
-    appendToDoItem(newTodoItem);
     ToDoAction.clearFormData();
 });
 
@@ -98,23 +107,15 @@ elements.deleteConfirmationModal.querySelector('.delete-todo').addEventListener(
     elements.deleteConfirmationModal.classList.toggle("show-modal"); 
 });
 
-// mark as complete on  selected todo items
+// mark as complete on selected todo items
 elements.markCompleteOnSelectedItems.addEventListener('click',(event) => {
-    debugger;
     let [itemsToUpdate, idsToUpdate] = ToDoAction.getCheckedItemsToModify();
     let action=todoActions.markCompleteSelected;
     modifyTodoItems(itemsToUpdate,idsToUpdate,action);
 });
 
-// const isTodoAlreadyPresent = (item) =>
-// {
-//     let items = Array.from(todoItemsBucket.values());
-//     return items.map((cur) => cur.id==item.id)[0];
-// }
-
 // Modify the Todo items based on the action provided
 function modifyTodoItems(items,ids,action){
-    debugger;
     if(items.length > 0)
     {
         switch(action)
@@ -129,15 +130,14 @@ function modifyTodoItems(items,ids,action){
                 updateTodoItemBucket(action,ids);
                 break;  
             case todoActions.edit:
-                //let todoItemData = todoItemsBucket.get(ids);
-                if(todoItemData)
-                {
-                    elements.addTodoItemModal.classList.toggle("show-modal"); 
-                    ToDoAction.updateTodoItems(todoItemData,action);
-                }
+                debugger;
+                elements.addTodoItemModal.classList.toggle("show-modal"); 
+                elements.addTodoItemModal.setAttribute("data-target",`item-${ids}`);
+                ToDoAction.updateTodoItems([todoItemsBucket[ids[0]]],action);
                 break;
             case todoActions.markCompleteSelected:
                 ToDoAction.updateTodoItems(items,action);
+                updateTodoItemBucket(action,ids);
         }
     }  
 }
@@ -160,8 +160,7 @@ elements.toDoListContainer.addEventListener('click',(event) => {
     else if (action.includes("todo-item-complete"))
     {
         modifyTodoItems(targetele,id,todoActions.markComplete); 
-    }
-     
+    }     
 });
 
 

@@ -13,6 +13,11 @@ export const elements = {
     emptyContent : document.querySelector('.empty-content'),
     addModalErrorMessage : document.querySelector('.error-message'),
     deleteConfirmationModal : document.querySelector('#delete-confirmation-modal'),
-    deleteSelected : document.querySelector('#delete'),
+    deleteSelected : document.querySelector('#delete-selected'),
     markCompleteOnSelectedItems : document.querySelector("#mark-complete"),
+}
+
+export const modalsName = {
+    addTodoItemModal : 'add-item-modal',
+    deleteTodoItemModal : 'delete-confirmation-modal'
 }
