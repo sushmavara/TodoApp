@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bitter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" type="text/css">  
+    <title>Todo App</title>  
+  </head>
+  <body>
+    
+    <!-- NAVIGATION BAR -->
+    <nav>
+      <div class="menu"> 
+        <h4>The Nav</h4> 
+      </div>
+      <ul class="nav-links">
+        <li class="to-do-app-nav">
+          <a href="#">ToDo</a> 
+        </li>
+        <li class="calendar-app-nav">
+            <a href="#">Calender</a> 
+        </li>
+      </ul>
+    </nav>
+
+   <!-- TODO APP-->
+    <div id="to-do-app" class="menu-item">
+
+      <!-- TODO Action Buttons-->
+      <div class="container todo-actions">
+        <div id="add-new-todo" data-modal="add-item-modal">
+          <a href="#">
+              Add New ToDo Item
+          </a>
+        </div>
+        <div class="update-actions">
+          <div id="delete" data-modal="delete-confirmation-modal">
+            <a href="#">
+              Delete
+            </a>
+          </div>
+          <div id="mark-complete">
+            <a href="#">
+              Mark Complete
+              </a>
+          </div>  
+        </div>     
+      </div>
+      <hr>
+
+      <!-- TODO LIST-->
+      <div class="container">
+        <div class="empty-content">
+          <h4> No Todo Items !!!</h4>
+        </div>
+        <div class="todo-list">
+          <ul class="todo-items-ul-list">
+              <li><div class="header">
+                  <h4 class="title-header">Title</h4>
+                  <h4 class="description-header">Description</h4>
+                  <h4 class="due-date-header">Due Date</h4>
+                </div> 
+              </li>
+              
+            <!-- <li class="list-item">
+              <div class="todo-list-item-1 item">
+                  <input type="checkbox"  class="margin-left-20 item-select">
+                  <div title="title" class="title">Title</div>
+                  <div title="Description" class="description">Description</div>
+                  <div class="due-date">10/10/4039</div>
+                  <i class="icon ion-md-create"></i>
+                  <i class="icon ion-md-checkmark"></i>
+                  <i class="icon ion-md-trash"></i>
+             </div> 
+            </li> -->
+          </ul>    
+        </div>
+      </div>
+
+
+      <!--  Add Todo Item Modal -->
+      <div id="add-item-modal" class="modal">
+        <div class="modal-content">
+          <i class="icon ion-md-close close-button"></i>
+          <h3> Add New Todo Item  <!--Check for update and change the text--></h3>
+          <div>
+            <label for="title"> Title : </label><br>
+            <input type="text" name="title" class="todo-title input-element" required> 
+            <!-- <span class="error"></span> -->
+          </div>  
+          <div>
+            <label for="due-date"> Due Date : </label><br>
+            <input type="date" name="due-date" class="todo-due-date input-element" required>
+          </div>
+          <div>
+              <label for="description"> Description : </label><br>
+              <textarea name="description" cols="30" rows="5" class="todo-description input-element"></textarea>
+            </div>
+          <div>
+            <button class="save-todo-item"> 
+              Save  <!--Check for update and change the text or to Update -->
+            </button>
+            <button class="cancel">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!--    Delete Todo Item Modal      -->
+      <div id="delete-confirmation-modal" class="modal">
+        <div class="modal-content">
+          <i class="icon ion-md-close close-button"></i>
+          <h3> Delete ToDo  <!--Check for update and change the text--></h3>
+          <div>
+            <p> Do you want to delete selected todo items ?
+                  <!--Check for update and change the text
+                  Do you want to delete all/selected todo items -->
+            </p>
+          </div>
+          <div>
+            <button class="delete-todo"> 
+                  <!--Check for update and change the text or to Update -->
+                  Yes
+            </button>
+            <button class="cancel">
+                Discard
+            </button>
+          </div>     
+        </div>
+      </div>
+
+      <!-- Success  Modal      -->
+      <div id="success-modal" class="modal">
+          <div class="modal-content">
+            <span class="close-button">&times; </span>
+            <div>
+              <p> 
+                Todo item added successfully
+              </p>
+            </div>
+            <div>
+              <button class="okay"> 
+                    Ok
+              </button>
+            </div>     
+          </div>
+        </div>
+    </div>
+
+  <!-- CALENDER APP-->  
+    <div id="calendar-app" class="menu-item" style="display:none">
+      <div class="container">
+        <div class="empty-content">
+          <h4> Nothing to Display Here !!!<h4>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

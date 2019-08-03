@@ -1,0 +1,282 @@
+/*************  Default Settings  **************/
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 16px;
+    font-family: 'Bitter', Helvetica, sans-serif;
+}
+
+.background-white
+{
+    background-color: white;
+}
+
+/*************  NAVIGATION BAR  **************/
+
+nav, .nav-links{
+    display:flex;
+    justify-content: space-around;
+}
+
+nav{
+    min-height: 8vh;
+    background-color: rgb(18, 90, 131);
+    align-items: center;
+}
+
+.menu{
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: rgb(224, 223, 223);
+    font-size: 22px;
+}
+
+.nav-links{
+    width:35%;
+}
+
+.nav-links li{
+    list-style: none;
+} 
+
+.nav-links a{
+    color: rgb(224, 223, 223);
+    text-decoration: none;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.menu-item{
+    background-color: rgb(226, 225, 225);
+    height: 100vh;
+}
+
+/* #delete[disabled = true]{
+    background-color:rgb(66, 106, 129);
+    cursor: default;
+} */
+
+/************* Empty Content **************/
+.empty-content
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; 
+    color: rgb(47, 43, 43);
+}
+
+/************* Container **************/
+.container{
+    padding:0 10%;
+    padding-top:2%;
+}
+
+/************* MARGINS **************/
+.margin-left-60 {
+    margin-left: 60px;
+}
+
+.margin-left-20 {
+    margin-left: 20px;
+}
+
+/******************** TODO APP **********************/
+
+/************* TODO Actions **************/
+
+.todo-actions,.update-actions{
+    display: flex;
+}
+
+.todo-actions
+{
+    justify-content: space-between;
+    width:100%;
+}
+
+.todo-actions a {
+    height: 45px;
+    padding: 10px 10px;
+    background-color:#86BDD1;
+    border-radius: 5px;
+    border: 1px solid white;
+    text-decoration: none;
+    font-size: 16px;
+    color: black;
+}
+
+.todo-actions a:hover{
+    background-color:rgb(115, 161, 179);
+}
+
+#add-new-todo{
+    margin-left: 5%;
+}
+
+.update-actions{
+    justify-content: space-evenly;
+    width:25%;
+}
+
+hr{
+    margin-top:2%;
+    height:1px; 
+    border:none;
+    background-color:rgb(218, 200, 200);
+}
+
+/************* TODO List **************/
+
+ .todo-list{
+     margin-left:5%;
+     margin-right: 3%;
+     font-size:18px;
+     margin-bottom: 5px;
+     height: 50px;
+     display: none;
+     color: rgb(61, 55, 55);
+}
+
+.todo-list li{
+    background-color: #f8f9fd;
+    list-style: none;
+    border:1px solid rgb(218, 200, 200);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.todo-list li input[type="checkbox"]
+{
+    transform : scale(1.4);
+}
+
+.todo-list li .header{
+    display: flex;
+    justify-content: space-around;
+    width:80%;
+}
+
+.todo-list .item div{
+    display: inline-block;
+    margin-left: 59px;
+    font-size: 16px;
+}
+
+.title,.due-date{
+    min-width: 20%;
+    max-width: 20%; 
+}
+.title{
+    padding-left: 32px;
+}
+
+.description{
+    min-width: 25%;
+    max-width: 25%;
+    padding-left: 22px;
+}
+
+.due-date{
+    padding-left:10px;
+}
+
+.icon
+{
+    margin-left:40px;
+    font-size:20px;
+}
+
+.icon:hover{
+    cursor: pointer;
+}
+
+.todo-complete{
+    text-decoration: line-through;
+    color:red;
+}
+
+/************* MODALS **************/
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:rgb(199, 221, 230);
+    padding: 1%;
+    width: 30%;
+    border-radius:10px;
+    color: rgb(34, 31, 31);
+}
+.close-button {
+    float: right;
+    width: 15px;
+    line-height: 15px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    color: grey;
+}
+.close-button:hover {
+    color:  rgb(47, 43, 43);
+}
+.show-modal {
+    display: block;
+}
+
+.modal-content h3{
+    text-align: center;
+    text-decoration: underline;
+}
+
+.modal-content div {
+    margin: 25px 20px;
+}
+
+.modal-content .input-element{
+    width:100%;
+    height: 40px;
+    font-size: 16px;
+    padding:10px;
+    margin-top:2px;
+    color:rgb(80, 70, 70);
+    border-radius: 5px;
+}
+.modal-content button{
+    width:20%;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: rgb(242, 247, 251);
+    font-size: 16px;
+    margin-left: 10px;
+    text-align: center;
+    float: right;
+}
+.modal-content button:hover,.modal-content button:active{
+   background-color: rgb(212, 234, 253);
+   color: rgb(80, 70, 70);
+}
+
+.error-message{
+    margin-top:2px;
+    font-size:12px;
+    color:rgb(156, 80, 80);
+}
+
+
+/************* CALENDAR APP *****************/
+
