@@ -1,6 +1,8 @@
 import {elements} from './DomElements'
+import {todoActions} from '../index'
 
 export const getTodoItemModalInfo = () => {
+
     // if(elements.toDoTitleInput.value==""){
     //     let errorEle= document.createElement('span');
     //     errorEle.setAttribute("class", "error-message");
@@ -12,7 +14,7 @@ export const getTodoItemModalInfo = () => {
     return {
         title:elements.toDoTitleInput.value,
         description:elements.toDoDescriptionInput.value,
-        due_date:elements.toDoDueDateInput.value
+        dueDate:elements.toDoDueDateInput.value
     }
 }
 
@@ -29,10 +31,10 @@ export const toggleEmptyContentMessage = (listSize) => {
     }else {
         elements.toDoListContainer.style.display = "none";
         elements.emptyContent.style.display = "flex";
-        debugger;
         elements.deleteSelected.setAttribute('disabled',true);
     }
 }
+
 export const getItemId = (item) =>{
     let item_id = item.getAttribute('id');
     if(item_id)
@@ -42,7 +44,6 @@ export const getItemId = (item) =>{
     }
 }
         
-
 export const getCheckedItemsToModify = () => {
     let itemsToModify = [];
     let idsToModify = [];
@@ -90,24 +91,34 @@ const markCompleteSelected = (item) =>
     }
 }
 
+export const fillEditTodoItemModal = (data) =>{
+    elements.saveTodoItem.classList.remove('save-todo-item');
+    elements.saveTodoItem.classList.add('update-todo-item');
+    elements.saveTodoItem.textContent="Update";
+    elements.addTodoItemModal.querySelector('h3').textContent="Update Todo Item";
+    elements.toDoTitleInput.value=data.title;
+    elements.toDoDescriptionInput.value=data.description;
+    elements.toDoDueDateInput.value=data.dueDate;
+}
+
 export const updateTodoItems = (itemsToModify,action) =>{
     for ( let item of itemsToModify)
     {
         switch (action){
-            case "delete":deleteItem(item);
+            case todoActions.delete:
+                deleteItem(item);
                 break;
-            case "mark-complete": toggleMarkComplete(item);
+            case todoActions.markComplete: 
+                toggleMarkComplete(item);
                 break;
-            case "edit" : fillEditTodoItemModal(item);
+            case todoActions.edit : 
+                fillEditTodoItemModal(item);
                 break;
-            case "mark-complete-selected": markCompleteSelected(item);
+            case todoActions.markCompleteSelected: 
+                markCompleteSelected(item);
                 break;
         } 
     }
 }
 
-export const fillEditTodoItemModal = (data) =>{
-    debugger;
-    elements.toDoTitleInput.value=data.title;
-}
 

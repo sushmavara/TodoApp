@@ -1,27 +1,43 @@
 import {clearFormData} from '../views/ToDoItemActionView'
+import {elements , modalsName} from '../views/DomElements'
+
+
+function initDataModalToggleBtns(modalID,modal,btn)
+{
+  debugger;
+  btn.addEventListener('click', () => {
+      modal.classList.toggle("show-modal");
+        switch (modalID){
+          case modalsName.addTodoItemModal:
+            elements.saveTodoItem.classList.add('save-todo-item');
+            elements.saveTodoItem.classList.remove('update-todo-item');
+            elements.saveTodoItem.textContent="Save";
+            elements.addTodoItemModal.querySelector('h3').textContent="Add New Todo Item";
+            clearFormData();
+            break;
+        }
+      });
+}
 
 export function initializeModal(modalID, buttonID) {
     let modal = document.getElementById(modalID);
     let btn = document.getElementById(buttonID);
     let closeBtn = modal.querySelector('.close-button');
     let cancelBtn= modal.querySelector('.cancel');
-    // toggle show-modal class
+    //toggle show-modal class
     function toggleModal()
     {
         modal.classList.toggle("show-modal");
     }
-    // When the user clicks on the button, open the modal
-    btn.addEventListener('click', toggleModal);
-  
+      
     [closeBtn,cancelBtn].forEach((current) => {
         current.addEventListener('click',() => {
             toggleModal(modal);
-            if(modalID=='add-item-modal')
-            {
-                clearFormData();
-            }
         })
     });
+    
+    // init modals on btn click
+    initDataModalToggleBtns(modalID,modal,btn);
  
     // When the user clicks anywhere outside of the modal, close it
     window.addEventListener('click', function(event) {

@@ -38,12 +38,12 @@
           </a>
         </div>
         <div class="update-actions">
-          <div id="delete-selected" data-modal="delete-confirmation-modal">
+          <div id="delete" data-modal="delete-confirmation-modal">
             <a href="#">
               Delete
             </a>
           </div>
-          <div id="mark-complete-selected">
+          <div id="mark-complete">
             <a href="#">
               Mark Complete
               </a>
@@ -53,12 +53,12 @@
       <hr>
 
       <!-- TODO LIST-->
-      <div class="container todo-container">
+      <div class="container">
         <div class="empty-content">
           <h4> No Todo Items !!!</h4>
         </div>
         <div class="todo-list">
-          <ul>
+          <ul class="todo-items-ul-list">
               <li><div class="header">
                   <h4 class="title-header">Title</h4>
                   <h4 class="description-header">Description</h4>
@@ -66,7 +66,7 @@
                 </div> 
               </li>
               
-            <!-- <li >
+            <!-- <li class="list-item">
               <div class="todo-list-item-1 item">
                   <input type="checkbox"  class="margin-left-20 item-select">
                   <div title="title" class="title">Title</div>
@@ -89,11 +89,12 @@
           <h3> Add New Todo Item  <!--Check for update and change the text--></h3>
           <div>
             <label for="title"> Title : </label><br>
-            <input type="text" name="title" class="todo-title input-element"> 
+            <input type="text" name="title" class="todo-title input-element" required> 
+            <!-- <span class="error"></span> -->
           </div>  
           <div>
             <label for="due-date"> Due Date : </label><br>
-            <input type="date" name="due-date" class="todo-due-date input-element">
+            <input type="date" name="due-date" class="todo-due-date input-element" required>
           </div>
           <div>
               <label for="description"> Description : </label><br>
@@ -116,13 +117,13 @@
           <i class="icon ion-md-close close-button"></i>
           <h3> Delete ToDo  <!--Check for update and change the text--></h3>
           <div>
-            <p> Do you want to delete selected todo items ?.
+            <p> Do you want to delete selected todo items ?
                   <!--Check for update and change the text
                   Do you want to delete all/selected todo items -->
             </p>
           </div>
           <div>
-            <button class="delete-selected"> 
+            <button class="delete-todo"> 
                   <!--Check for update and change the text or to Update -->
                   Yes
             </button>
