@@ -36,7 +36,7 @@ export const getCheckedItemsToModify = () => {
         {   
             if(item.querySelector('.item-select').checked)
             {
-                itemsToModify[getItemId(item)] = item.parentElement;
+                itemsToModify[getItemId(item)] = item;
             }
         }
     } 

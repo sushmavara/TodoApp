@@ -12,7 +12,7 @@ export function initEventListners() {
     elements.addNewTodoBtn.addEventListener('click',showDataModal);
     elements.deleteSelectedTodoBtn.addEventListener('click',showDataModal);
     elements.markCompleteOnSelectedTodo.addEventListener('click',onClickMarkCompleteSelectedTodo);
-    elements.toDoListContainer.addEventListener('click',onClickTodoItem);
+    elements.toDoItemsList.addEventListener('click',onClickTodoItem);
 }
 
 export function initDataModalEventListners() {

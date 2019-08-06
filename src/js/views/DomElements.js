@@ -29,4 +29,6 @@ export const DomStrings = {
     todoTitle : '.title',
     todoDescription : '.description',
     todoDueDate : '.due-date',
+
+    toDoListItem : 'todo-list-item-%id%'
 }
