@@ -15,6 +15,11 @@ export const deleteTodoModalTemplate = '<div id="delete-confirmation-modal" clas
 '</div></div><div class="modal-footer"><button class="delete-todo-item"> Yes</button><button class="cancel">Discard</button></div></div></div>';
 
 
-export const todoItemTemplate = '<li class="list-item"><div class="item" id="todo-list-item-%id%"><input type="checkbox"  class="margin-left-20 item-select"><div title="title" class="title">%title%</div>'+
+// export const todoItemTemplate = '<li class="list-item"><div class="item" id="todo-list-item-%id%"><input type="checkbox"  class="margin-left-20 item-select"><div title="title" class="title">%title%</div>'+
+// '<div title="Description" class="description">%description%</div><div class="due-date">%due-date%</div><i class="icon ion-md-create" id="edit-todo-item"></i><i class="icon ion-md-checkmark" id="todo-item-complete">'+
+// '</i><i class="icon ion-md-trash" id="delete-todo-item"></i></div></li>'
+
+
+export const todoItemTemplate = '<li id="todo-list-item-%id%" class="item"><input type="checkbox"  class="margin-left-20 item-select"><div title="title" class="title">%title%</div>'+
 '<div title="Description" class="description">%description%</div><div class="due-date">%due-date%</div><i class="icon ion-md-create" id="edit-todo-item"></i><i class="icon ion-md-checkmark" id="todo-item-complete">'+
-'</i><i class="icon ion-md-trash" id="delete-todo-item"></i></div></li>'
+'</i><i class="icon ion-md-trash" id="delete-todo-item"></i></li>'

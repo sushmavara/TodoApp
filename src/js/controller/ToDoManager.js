@@ -88,8 +88,8 @@ function modifyTodoItemList(uiItemsToModify,action) {
             switch(action)
             {
                 case ACTION_BUTTONS.DELETE_TODO:
-                    delete todoItemsBucket[todoItemObj.id];
                     ToDoAction.updateTodoItemsInUI(uiItemsToModify[id],action);
+                    delete todoItemsBucket[todoItemObj.id];
                     ToDoAction.toggleEmptyContentMessage(Object.keys(todoItemsBucket).length);
                     break;
                 case ACTION_BUTTONS.MARK_COMPLETE_TODO:
@@ -117,23 +117,25 @@ export const onClickMarkCompleteSelectedTodo = () => {
 }
 
 export const onClickTodoItem = (event) => {
-    let id = ToDoAction.getItemId(event.target.parentNode);
-    let action = event.target.id;
-    let targetele = event.target.parentNode.parentNode;
-    let todoItemToModify={};
-    todoItemToModify[id]=targetele;
-    switch(action)
-    {
-        case ACTION_BUTTONS.EDIT_TODO:
-            showDataModal(event);
-            ToDoAction.fillEditTodoItemModal(todoItemsBucket[id]);
-            toDoIdToEdit = todoItemsBucket[id].id;
-            break;
-        case ACTION_BUTTONS.DELETE_TODO:
-            modifyTodoItemList(todoItemToModify,action); 
-            break;
-        case ACTION_BUTTONS.MARK_COMPLETE_TODO:
-            modifyTodoItemList(todoItemToModify,action); 
-            break;
-    } 
+    let itemID = ToDoAction.getItemId(event.target.parentNode);
+    if(itemID){
+        let action = event.target.id;
+        let targetele = document.getElementById(DomStrings.toDoListItem.replace('%id%',itemID));
+        let todoItemToModify={};
+        todoItemToModify[itemID]=targetele;
+        switch(action)
+        {
+            case ACTION_BUTTONS.EDIT_TODO:
+                showDataModal(event);
+                ToDoAction.fillEditTodoItemModal(todoItemsBucket[itemID]);
+                toDoIdToEdit = itemID;
+                break;
+            case ACTION_BUTTONS.DELETE_TODO:
+                modifyTodoItemList(todoItemToModify,action); 
+                break;
+            case ACTION_BUTTONS.MARK_COMPLETE_TODO:
+                modifyTodoItemList(todoItemToModify,action); 
+                break;
+        } 
+    }
 }
