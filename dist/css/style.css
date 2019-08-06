@@ -51,11 +51,6 @@ nav{
     cursor: pointer;
 }
 
-.menu-item{
-    background-color: rgb(226, 225, 225);
-    height: 100vh;
-}
-
 /************* Empty Content **************/
 .empty-content
 {
