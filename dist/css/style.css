@@ -48,17 +48,13 @@ nav{
     text-decoration: none;
     letter-spacing: 3px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .menu-item{
     background-color: rgb(226, 225, 225);
     height: 100vh;
 }
-
-/* #delete[disabled = true]{
-    background-color:rgb(66, 106, 129);
-    cursor: default;
-} */
 
 /************* Empty Content **************/
 .empty-content
@@ -132,7 +128,7 @@ hr{
 
 /************* TODO List **************/
 
- .todo-list{
+ #todo-list-container{
      margin-left:5%;
      margin-right: 3%;
      font-size:18px;
@@ -142,7 +138,7 @@ hr{
      color: rgb(61, 55, 55);
 }
 
-.todo-list li{
+#todo-list-container li{
     background-color: #f8f9fd;
     list-style: none;
     border:1px solid rgb(218, 200, 200);
@@ -150,34 +146,41 @@ hr{
     padding: 10px;
 }
 
-.todo-list li input[type="checkbox"]
+#todo-list-container li input[type="checkbox"]
 {
     transform : scale(1.4);
 }
 
-.todo-list li .header{
+#todo-list-container li .header{
     display: flex;
     justify-content: space-around;
     width:80%;
 }
 
-.todo-list .item div{
+#todo-list-container .item div{
     display: inline-block;
     margin-left: 59px;
     font-size: 16px;
 }
 
+.title,.due-date,.description{
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
 .title,.due-date{
     min-width: 20%;
-    max-width: 20%; 
+    width: 20%; 
 }
+
 .title{
     padding-left: 32px;
 }
 
 .description{
     min-width: 25%;
-    max-width: 25%;
+    width: 25%;
     padding-left: 22px;
 }
 
@@ -234,6 +237,7 @@ hr{
 .close-button:hover {
     color:  rgb(47, 43, 43);
 }
+
 .show-modal {
     display: block;
 }
@@ -265,6 +269,7 @@ hr{
     margin-left: 10px;
     text-align: center;
     float: right;
+    cursor: pointer;
 }
 .modal-content button:hover,.modal-content button:active{
    background-color: rgb(212, 234, 253);
@@ -279,4 +284,3 @@ hr{
 
 
 /************* CALENDAR APP *****************/
-
