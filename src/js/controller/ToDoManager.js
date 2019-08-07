@@ -1,4 +1,4 @@
-import ToDoItem from  '../models/ToDoItem' 
+import {ToDoItem} from  '../models/ToDoItem' 
 import {elements,DomStrings} from '../views/DomElements'
 import * as ToDoAction from '../views/ToDoItemUIView'
 import {ACTION_BUTTONS} from '../constants'
@@ -6,7 +6,7 @@ import {deleteTodoModalTemplate, addTodoModalTemplate , updateTodoModalTemplate}
 import {initDataModalEventListners} from './eventListnerController'
 
 
-let activeModal,toDoIdToEdit;
+let activeModal;
 
 // converting array of objects into object of objects 
 const getTodoItemsObjs = (itemList) => {
@@ -40,7 +40,7 @@ export const showDataModal = (event) => {
         document.body.appendChild(htmlToElement(deleteTodoModalTemplate));
         break;
       case ACTION_BUTTONS.EDIT_TODO:
-        document.body.appendChild(htmlToElement(updateTodoModalTemplate));
+        document.body.appendChild(htmlToElement(updateTodoModalTemplate.replace("%target-id%",event.targetTodoID)));
         break;
   }
   document.querySelector(DomStrings.modal).style.display="block";
@@ -50,7 +50,7 @@ export const showDataModal = (event) => {
 
 function validateTitle(title){
     if(!title)
-        activeModal.querySelector('.error-message').textContent="Title can not be emtpy";
+        activeModal.querySelector('.error-message').style.display="inline";
     return !title;
 }
 
@@ -72,14 +72,16 @@ export const updateExistingUIListItem = (todoItem, updatedValues) => {
     listItemToUpdate.querySelector('.due-date').textContent=updatedValues.dueDate;
 }
 
-export const onClickUpdateTodo = () => {
+export const onClickUpdateTodo = (event) => {
     let itemInfo= ToDoAction.getTodoItemModalInfo();
+    let toDoIdToEdit = parseInt(activeModal.getAttribute("data-target"));
     if(!validateTitle(itemInfo.title))
     {
         updateExistingUIListItem(todoItemsBucket[toDoIdToEdit],itemInfo);
         todoItemsBucket[toDoIdToEdit] = todoItemsBucket[toDoIdToEdit].editTodoItem(itemInfo);
         document.body.removeChild(activeModal);
     }
+    event.stopPropagation();
 }
 
 function modifyTodoItemList(uiItemsToModify,action) {
@@ -108,12 +110,14 @@ export const onClickDeleteSelectedTodo = () => {
     let action=ACTION_BUTTONS.DELETE_TODO;
     modifyTodoItemList(itemsToDelete,action); 
     document.body.removeChild(activeModal);
+    event.stopPropagation();
 }
 
 export const onClickMarkCompleteSelectedTodo = () => {
     let itemsToUpdate = ToDoAction.getCheckedItemsToModify();
     let action=ACTION_BUTTONS.MARK_COMPLETE_SELECTED;
     modifyTodoItemList(itemsToUpdate,action);
+    event.stopPropagation();
 }
 
 export const onClickTodoItem = (event) => {
@@ -121,21 +125,20 @@ export const onClickTodoItem = (event) => {
     if(itemID){
         let action = event.target.id;
         let targetele = document.getElementById(DomStrings.toDoListItem.replace('%id%',itemID));
-        let todoItemToModify={};
-        todoItemToModify[itemID]=targetele;
         switch(action)
         {
             case ACTION_BUTTONS.EDIT_TODO:
+                event.targetTodoID = itemID;
                 showDataModal(event);
                 ToDoAction.fillEditTodoItemModal(todoItemsBucket[itemID]);
-                toDoIdToEdit = itemID;
                 break;
             case ACTION_BUTTONS.DELETE_TODO:
-                modifyTodoItemList(todoItemToModify,action); 
+                modifyTodoItemList({[itemID]:targetele},action); 
                 break;
             case ACTION_BUTTONS.MARK_COMPLETE_TODO:
-                modifyTodoItemList(todoItemToModify,action); 
+                modifyTodoItemList({[itemID]:targetele},action); 
                 break;
         } 
     }
+    event.stopPropagation();
 }
