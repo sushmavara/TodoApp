@@ -6,7 +6,7 @@ import {deleteTodoModalTemplate, addTodoModalTemplate , updateTodoModalTemplate}
 import {initDataModalEventListners} from './eventListnerController'
 
 
-let activeModal;
+let activeModal,activeTodoToEdit;
 
 // converting array of objects into object of objects 
 const getTodoItemsObjs = (itemList) => {
@@ -30,7 +30,7 @@ function htmlToElement(html) {
 }
 
 // modal display based on event and adding event listners 
-export const showDataModal = (event) => {
+export const showDataModal = () => {
   let onClickBtn = event.target.id;
   switch (onClickBtn){
       case ACTION_BUTTONS.ADD_NEW_TODO:
@@ -40,7 +40,7 @@ export const showDataModal = (event) => {
         document.body.appendChild(htmlToElement(deleteTodoModalTemplate));
         break;
       case ACTION_BUTTONS.EDIT_TODO:
-        document.body.appendChild(htmlToElement(updateTodoModalTemplate.replace("%target-id%",event.targetTodoID)));
+        document.body.appendChild(htmlToElement(updateTodoModalTemplate));
         break;
   }
   document.querySelector(DomStrings.modal).style.display="block";
@@ -50,7 +50,8 @@ export const showDataModal = (event) => {
 
 function validateTitle(title){
     if(!title)
-        activeModal.querySelector('.error-message').style.display="inline";
+        activeModal.querySelector(DomStrings.titleErrorMessage).style.visibility="visible";
+        activeModal.querySelector(DomStrings.toDoTitleInput).focus();
     return !title;
 }
 
@@ -74,11 +75,10 @@ export const updateExistingUIListItem = (todoItem, updatedValues) => {
 
 export const onClickUpdateTodo = (event) => {
     let itemInfo= ToDoAction.getTodoItemModalInfo();
-    let toDoIdToEdit = parseInt(activeModal.getAttribute("data-target"));
     if(!validateTitle(itemInfo.title))
     {
-        updateExistingUIListItem(todoItemsBucket[toDoIdToEdit],itemInfo);
-        todoItemsBucket[toDoIdToEdit] = todoItemsBucket[toDoIdToEdit].editTodoItem(itemInfo);
+        updateExistingUIListItem(todoItemsBucket[activeTodoToEdit],itemInfo);
+        todoItemsBucket[activeTodoToEdit] = todoItemsBucket[activeTodoToEdit].editTodoItem(itemInfo);
         document.body.removeChild(activeModal);
     }
     event.stopPropagation();
@@ -124,12 +124,12 @@ export const onClickTodoItem = (event) => {
     let itemID = ToDoAction.getItemId(event.target.parentNode);
     if(itemID){
         let action = event.target.id;
-        let targetele = document.getElementById(DomStrings.toDoListItem.replace('%id%',itemID));
+        let targetele = event.target.parentNode;
         switch(action)
         {
             case ACTION_BUTTONS.EDIT_TODO:
-                event.targetTodoID = itemID;
-                showDataModal(event);
+                activeTodoToEdit = itemID;
+                showDataModal();
                 ToDoAction.fillEditTodoItemModal(todoItemsBucket[itemID]);
                 break;
             case ACTION_BUTTONS.DELETE_TODO:
