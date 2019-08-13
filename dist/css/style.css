@@ -10,14 +10,14 @@ html{
     font-family: 'Bitter', Helvetica, sans-serif;
 }
 
-.background-white
+.backgroundWhite
 {
     background-color: white;
 }
 
 /*************  NAVIGATION BAR  **************/
 
-nav, .nav-links{
+nav, .navLinks{
     display:flex;
     justify-content: space-around;
 }
@@ -35,15 +35,15 @@ nav{
     font-size: 22px;
 }
 
-.nav-links{
+.navLinks{
     width:35%;
 }
 
-.nav-links li{
+.navLinks li{
     list-style: none;
 } 
 
-.nav-links a{
+.navLinks a{
     color: rgb(224, 223, 223);
     text-decoration: none;
     letter-spacing: 3px;
@@ -52,8 +52,7 @@ nav{
 }
 
 /************* Empty Content **************/
-.empty-content
-{
+.emptyContent{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,11 +67,11 @@ nav{
 }
 
 /************* MARGINS **************/
-.margin-left-60 {
+.marginLeft60 {
     margin-left: 60px;
 }
 
-.margin-left-20 {
+.marginLeft20 {
     margin-left: 20px;
 }
 
@@ -80,17 +79,17 @@ nav{
 
 /************* TODO Actions **************/
 
-.todo-actions,.update-actions{
+.todoActionBar,.updateActions{
     display: flex;
 }
 
-.todo-actions
+.todoActionBar
 {
     justify-content: space-between;
     width:100%;
 }
 
-.todo-actions a {
+.todoActionBar a {
     height: 45px;
     padding: 10px 10px;
     background-color:#86BDD1;
@@ -101,15 +100,15 @@ nav{
     color: black;
 }
 
-.todo-actions a:hover{
+.todoActionBar a:hover{
     background-color:rgb(115, 161, 179);
 }
 
-#add-new-todo{
+.addNewTodo{
     margin-left: 5%;
 }
 
-.update-actions{
+.updateActions{
     justify-content: space-evenly;
     width:25%;
 }
@@ -129,7 +128,7 @@ hr{
 
 /************* TODO List **************/
 
- #todo-list-container{
+.todoListContainer{
      margin-left:5%;
      margin-right: 3%;
      font-size:18px;
@@ -139,7 +138,7 @@ hr{
      color: rgb(61, 55, 55);
 }
 
-#todo-list-container li{
+.todoListContainer li{
     background-color: #f8f9fd;
     list-style: none;
     border:1px solid rgb(218, 200, 200);
@@ -147,30 +146,36 @@ hr{
     padding: 10px;
 }
 
-#todo-list-container li input[type="checkbox"]
+.todoListContainer li input[type="checkbox"]
 {
     transform : scale(1.4);
 }
 
-#todo-list-container li .header{
+.todoListContainer .header{
     display: flex;
     justify-content: space-around;
-    width:80%;
+    align-items: center;
+    width:100%;
+    border:1px solid rgb(218, 200, 200);
+    background-color: #f8f9fd;
+    padding-right: 250px;
+    height: 40px;
+    border-radius: 3px;
 }
 
-#todo-list-container .item div{
+.todoListContainer .item div{
     display: inline-block;
     margin-left: 59px;
     font-size: 16px;
 }
 
-.title,.due-date,.description{
+.title,.dueDate,.description{
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis; 
 }
 
-.title,.due-date{
+.title,.dueDate{
     min-width: 20%;
     width: 20%; 
 }
@@ -185,13 +190,12 @@ hr{
     padding-left: 22px;
 }
 
-.due-date{
+.dueDate{
     padding-left:10px;
 }
 
-.icon
-{
-    margin-left:40px;
+.icon{
+    margin-left:30px;
     font-size:20px;
 }
 
@@ -199,7 +203,7 @@ hr{
     cursor: pointer;
 }
 
-.todo-complete{
+.todoComplete{
     text-decoration: line-through;
     color:red;
 }
@@ -215,7 +219,7 @@ hr{
     display: none;
 }
 
-.modal-content {
+.modalContent {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -226,7 +230,7 @@ hr{
     border-radius:10px;
     color: rgb(34, 31, 31);
 }
-.close-button {
+.closeButton {
     float: right;
     width: 15px;
     line-height: 15px;
@@ -235,24 +239,24 @@ hr{
     border-radius: 5px;
     color: grey;
 }
-.close-button:hover {
+.closeButton:hover {
     color:  rgb(47, 43, 43);
 }
 
-.show-modal {
+.showModal {
     display: block;
 }
 
-.modal-content h3{
+.modalContent h3{
     text-align: center;
     text-decoration: underline;
 }
 
-.modal-content div {
+.modalContent div {
     margin: 25px 20px;
 }
 
-.modal-content .input-element{
+.modalContent .inputElement{
     width:100%;
     height: 40px;
     font-size: 16px;
@@ -261,7 +265,7 @@ hr{
     color:rgb(80, 70, 70);
     border-radius: 5px;
 }
-.modal-content button{
+.modalContent button{
     width:20%;
     padding: 8px;
     border-radius: 5px;
@@ -272,12 +276,12 @@ hr{
     float: right;
     cursor: pointer;
 }
-.modal-content button:hover,.modal-content button:active{
+.modalContent button:hover,.modalContent button:active{
    background-color: rgb(212, 234, 253);
    color: rgb(80, 70, 70);
 }
 
-.error-message{
+.errorMessage{
     margin-top:2px;
     font-size:12px;
     color:rgb(156, 80, 80);

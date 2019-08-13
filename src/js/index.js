@@ -1,22 +1,10 @@
-import {initEventListners} from './controller/eventListnerController'
-import * as ConfigVariable from './config'
+import {ToDoListManager} from './controller/ToDoListManager'
+import {NavigationBarController} from './controller/NavigationBarController'
 
-let currentActiveTab = ConfigVariable.currentActiveTab;
-let currentDisplayedContent = ConfigVariable.currentDisplayedContent;
+// initialize navigation controller 
+let navigationController = new NavigationBarController();
+navigationController.init();
 
-/*** Control the app content to be displayed ***/
-export const showContent = (contentToShow) => (evnt) => {
-    if(evnt.currentTarget !== currentActiveTab)
-    {
-        let activeContentToDisplay = document.getElementById(contentToShow);
-        evnt.currentTarget.classList.add('active');
-        currentActiveTab.classList.remove('active');
-        currentDisplayedContent.style.display = "none";
-        activeContentToDisplay.style.display = "block";
-        currentDisplayedContent = activeContentToDisplay;
-        currentActiveTab = evnt.currentTarget;   
-    } 
-  }
-
-// initialize event listeners  
-document.onload = initEventListners();
+//initialize todo Manager 
+let todoListManager = new ToDoListManager();
+todoListManager.init();

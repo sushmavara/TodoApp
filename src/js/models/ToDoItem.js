@@ -1,14 +1,14 @@
-import {todoItemTemplate} from '../views/Todo-App-Templates'
 
-export function ToDoItem(title,description,dueDate){
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
+export function ToDoItem(toDoItemInfo){
+    this.title = toDoItemInfo.title;
+    this.description = toDoItemInfo.description;
+    this.dueDate = toDoItemInfo.dueDate;
     this.id = Date.now();
     this.isCompleted = false;
+    this.isChecked = false;
 }
 
-ToDoItem.prototype.markItemComplete = function(){
+ToDoItem.prototype.markTodoComplete = function(){
     this.isCompleted = true;
     return this;
 }
@@ -25,9 +25,7 @@ ToDoItem.prototype.editTodoItem = function(editedTodo){
     return this;  
 }
 
-ToDoItem.prototype.createTodoItemNode = function(){
-    return todoItemTemplate.replace("%id%",this.id).
-        replace("%title%",this.title).
-        replace("%description%",this.description).
-        replace("%due-date%",this.dueDate);
+ToDoItem.prototype.toggleMarkChecked= function(){
+    this.isChecked = !this.isChecked;
+    return this;
 }
