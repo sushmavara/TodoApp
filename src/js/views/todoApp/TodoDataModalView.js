@@ -1,43 +1,37 @@
 import {DomStrings} from '../domStrings'
 export function TodoDataModalView (){
-    this.activeModal=null;
 }
 
-TodoDataModalView.prototype.attachDataModal= (modalToAttach) => {
+TodoDataModalView.prototype.attachDataModal= function(modalToAttach){
     document.body.appendChild(modalToAttach);
-    document.querySelector(DomStrings.modal).style.display="block";
 }
 
 TodoDataModalView.prototype.destroyActiveDataModal= () =>{
    document.body.removeChild(document.querySelector(DomStrings.modal));
+   event.stopPropagation();
 }
 
-TodoDataModalView.prototype.bindEvents = (todoManager) => {
+TodoDataModalView.prototype.bindEvents = function(todoListManager) {
     let activeModal = document.querySelector(DomStrings.modal);
     let closeBtn = activeModal.querySelector(DomStrings.modalCloseBtn);
     let cancelBtn = activeModal.querySelector(DomStrings.modalCancelBtn);
     let saveBtn = activeModal.querySelector(DomStrings.modalSaveBtn);
     let updateBtn = activeModal.querySelector(DomStrings.modalUpdateBtn);
     let deleteOkBtn = activeModal.querySelector(DomStrings.modalDeleteBtn);
-
-    function destroyModal(){
-        document.body.removeChild(activeModal);
-    }
-
+ 
     [closeBtn,cancelBtn].forEach((current) => {
-        current.addEventListener('click',() => {
-          destroyModal(activeModal);
-      })
+        current.addEventListener('click',
+            todoListManager.todoDataModalView.destroyActiveDataModal);
     });
 
-    if(saveBtn) saveBtn.addEventListener('click', todoManager.onClickSaveNewTodo.bind(todoManager));
-    if(updateBtn) updateBtn.addEventListener('click',todoManager.onClickUpdateTodo.bind(todoManager));
-    if(deleteOkBtn) deleteOkBtn.addEventListener('click',todoManager.onClickDeleteSelectedTodo.bind(todoManager));
+    if(saveBtn) saveBtn.addEventListener('click', todoListManager.onClickSaveNewTodo.bind(todoListManager));
+    if(updateBtn) updateBtn.addEventListener('click',todoListManager.onClickUpdateTodo.bind(todoListManager));
+    if(deleteOkBtn) deleteOkBtn.addEventListener('click',todoListManager.onClickDeleteSelectedTodo.bind(todoListManager));
 
     // When the user clicks anywhere outside of the modal, close it
     window.addEventListener('click', function(event) {
         if (event.target === activeModal) {
-          destroyModal(activeModal);
+            todoListManager.todoDataModalView.destroyActiveDataModal();
         }
     });
 }

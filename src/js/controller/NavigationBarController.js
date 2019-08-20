@@ -15,17 +15,16 @@ NavigationBarController.prototype.init = function(){
 
 
 NavigationBarController.prototype.showContent = function(contentToShow) {
-    let that=this;
-    return function(evnt){
-        if(evnt.currentTarget !== that.currentActiveTab)
+    return (evnt)=>{
+        if(evnt.currentTarget !== this.currentActiveTab)
         {
             let activeContentToDisplay = document.querySelector(contentToShow);
             evnt.currentTarget.classList.add('active');
-            that.currentActiveTab.classList.remove('active');
-            that.currentDisplayedContent.style.display = "none";
+            this.currentActiveTab.classList.remove('active');
+            this.currentDisplayedContent.style.display = "none";
             activeContentToDisplay.style.display = "block";
-            that.currentDisplayedContent = activeContentToDisplay;
-            that.currentActiveTab = evnt.currentTarget;   
+            this.currentDisplayedContent = activeContentToDisplay;
+            this.currentActiveTab = evnt.currentTarget;   
         } 
     }
   }

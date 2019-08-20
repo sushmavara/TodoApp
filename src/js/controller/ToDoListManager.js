@@ -9,8 +9,8 @@ export function ToDoListManager(){
     this.toDoListItems = new Map();
     this.toDoListContainer = elements.toDoItemsUlList;
     this.toDoActionBarView= new ToDoActionBarView();
-    this.todoDataModalView = new TodoDataModalView();
     this.toDoListView = new ToDoListView();
+    this.todoDataModalView = new TodoDataModalView();
 }
 
 ToDoListManager.prototype.init = function() {
@@ -34,12 +34,13 @@ ToDoListManager.prototype.showDataModal = function() {
   }
 
 ToDoListManager.prototype.onClickSaveNewTodo = function(event){
-    const toDoInfo= this.todoDataModalView.getTodoItemModalInfo();
+    const toDoInfo = this.todoDataModalView.getTodoItemModalInfo();
     this.todoDataModalView.validateTitle(toDoInfo.title.trim());
     if(toDoInfo.title.trim()){
         const newTodo = new ToDoItem(toDoInfo);
         this.toDoListItems.set(newTodo.id,newTodo);
         this.todoDataModalView.destroyActiveDataModal();
+      //  delete this.todoDataModalView;
         this.renderTodoList();
     }
     event.stopPropagation();
@@ -53,6 +54,7 @@ ToDoListManager.prototype.onClickUpdateTodo = function(event){
         let todoToEdit=this.toDoListItems.get(this.activeTodoToEdit);
         todoToEdit.editTodoItem(toDoInfo);
         this.todoDataModalView.destroyActiveDataModal();
+       // delete this.todoDataModalView;
         this.renderTodoList();
     }
     event.stopPropagation();
@@ -79,7 +81,7 @@ ToDoListManager.prototype.modifyTodoItemList = function(todoIdsToModify,action) 
     this.renderTodoList();
 }
 
-ToDoListManager.prototype.getIdsOdTodo = function(filterKey,filterValue){
+ToDoListManager.prototype.getIdsOfTodo = function(filterKey,filterValue){
     return Array.from(this.toDoListItems.entries()).reduce((result,current)=>{
         if(current[1][filterKey] === filterValue) result.push(current[0]);
         return result;
@@ -87,7 +89,7 @@ ToDoListManager.prototype.getIdsOdTodo = function(filterKey,filterValue){
 }
 
 ToDoListManager.prototype.onClickDeleteSelectedTodo = function(){
-    let itemsToDelete = this.getIdsOdTodo("isChecked",true);
+    let itemsToDelete = this.getIdsOfTodo("isChecked",true);
     let action=ACTION_BUTTON_CLASS_NAME.CONFIRM_DELETE_TODO;
     this.modifyTodoItemList(itemsToDelete,action); 
     this.todoDataModalView.destroyActiveDataModal();
@@ -95,7 +97,7 @@ ToDoListManager.prototype.onClickDeleteSelectedTodo = function(){
 }
 
 ToDoListManager.prototype.onClickMarkCompleteSelectedTodo = function(){
-    let itemsToUpdate = this.getIdsOdTodo("isChecked",true);
+    let itemsToUpdate = this.getIdsOfTodo("isChecked",true);
     let action=ACTION_BUTTON_CLASS_NAME.MARK_COMPLETE_SELECTED;
     this.modifyTodoItemList(itemsToUpdate,action);
     event.stopPropagation();
@@ -128,6 +130,6 @@ ToDoListManager.prototype.renderTodoList = function(){
     this.toDoListContainer.innerHTML='';
 
     for(let todoItemId of this.toDoListItems.keys()){
-        this.toDoListView.renderTodo(this.toDoListItems.get(todoItemId),this.htmlToElement);
+        this.toDoListView.renderTodo(this.toDoListItems.get(todoItemId),this.htmlToElement,this.toDoListContainer);
     }
 }

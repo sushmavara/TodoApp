@@ -4,11 +4,11 @@ import todoItemTemplate from '../../templates/todoElementTemplate'
 export function ToDoListView(){
 }
 
-ToDoListView.prototype.init = (todoListManager) => {
+ToDoListView.prototype.init = function(todoListManager) {
     elements.toDoItemsUlList.addEventListener('click',todoListManager.onClickTodoItemWrapper.bind(todoListManager));
 }
 
-ToDoListView.prototype.toggleEmptyContentMessage = (todoListSize) => {
+ToDoListView.prototype.toggleEmptyContentMessage = function(todoListSize) {
     if(todoListSize){  
         elements.emptyContent.style.display = "none";
         elements.toDoListContainer.style.display = "block";
@@ -18,19 +18,7 @@ ToDoListView.prototype.toggleEmptyContentMessage = (todoListSize) => {
     }
 }
 
-// ToDoListView.prototype.getCheckedTodosToModify = (todoListManager) => {
-//     let todoItemsToModify = new Map();
-//     let listItems = Array.from(document.querySelectorAll('.item'));
-//     for (let item of listItems)
-//     {   
-//         if(item.querySelector('.itemSelect').checked){
-//             todoItemsToModify.set(todoListManager.toDoItemView.getItemId(item),item)
-//         }
-//     }
-//     return todoItemsToModify ;
-// }
-
-ToDoListView.prototype.renderTodo = function(todoItemObject,htmlToNodeFunction){
+ToDoListView.prototype.renderTodo = function(todoItemObject,htmlToNodeFunction,toDoListContainer){
     let todoTemplate = todoItemTemplate.replace("%id%",todoItemObject.id).
         replace("%title%",todoItemObject.title).
         replace("%description%",todoItemObject.description).
@@ -39,5 +27,5 @@ ToDoListView.prototype.renderTodo = function(todoItemObject,htmlToNodeFunction){
             todoTemplate.replace(/%isComplete%/g,"");
     let toDoNode = htmlToNodeFunction(todoTemplate);
     if(todoItemObject.isChecked) toDoNode.querySelector('[data-action = "markTodoChecked"]').checked = true;
-    elements.toDoItemsUlList.appendChild(toDoNode);
+    toDoListContainer.appendChild(toDoNode);
 }
