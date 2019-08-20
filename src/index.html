@@ -17,33 +17,33 @@
       <div class="menu"> 
         <h4>The Nav</h4> 
       </div>
-      <ul class="nav-links">
-        <li class="to-do-app-nav">
+      <ul class="navLinks">
+        <li class="toDoAppNav">
           <a href="#">ToDo</a> 
         </li>
-        <li class="calendar-app-nav">
+        <li class="calendarAppNav">
             <a href="#">Calender</a> 
         </li>
       </ul>
     </nav>
 
    <!-- TODO APP-->
-    <div id="to-do-app-content">
+    <div class="toDoAppContainer">
 
       <!-- TODO Action Buttons-->
-      <div class="container todo-actions">
+      <div class="container todoActionBar">
         <div>
-          <a href="#" id="add-new-todo" data-modal="add-item-modal">
+          <a href="#" class="addNewTodo" data-modal="addItemModal">
               Add New ToDo Item
           </a>
         </div>
-        <div class="update-actions">
+        <div class="updateActions">
           <div>
-            <a href="#" id="delete-selected" data-modal="delete-confirmation-modal">
+            <a href="#" class="deleteSelected" data-modal="deleteConfirmationModal">
               Delete
             </a>
           </div>
-          <div id="mark-complete">
+          <div class="markComplete">
             <a href="#">
               Mark Complete
               </a>
@@ -54,38 +54,41 @@
 
       <!-- TODO LIST-->
       <div class="container">
-        <div class="empty-content">
+        <div class="emptyContent">
           <h4> No Todo Items !!!</h4>
         </div>
-        <div id="todo-list-container">
-          <ul class="todo-items-ul-list">
-              <li><div class="header">
-                  <h4 class="title-header">Title</h4>
-                  <h4 class="description-header">Description</h4>
-                  <h4 class="due-date-header">Due Date</h4>
+        <div class="todoListContainer">
+          <div class="todoList" data-id="1">
+              <div class="header">
+                  <h4>Title</h4>
+                  <h4>Description</h4>
+                  <h4>Due Date</h4>
                 </div> 
-              </li>
-              
-            <!-- <li class="list-item">
-              <div class="todo-list-item-1 item">
-                  <input type="checkbox"  class="margin-left-20 item-select">
-                  <div title="title" class="title">Title</div>
-                  <div title="Description" class="description">Description</div>
-                  <div class="due-date">10/10/4039</div>
-                  <i class="icon ion-md-create"></i>
-                  <i class="icon ion-md-checkmark"></i>
-                  <i class="icon ion-md-trash"></i>
-             </div> 
-            </li> -->
-          </ul>    
+                <ul class="todoItemsUlList">
+                    
+                <!-- <li class="list-item">
+                    <div class="todo-list-item-1 item">
+                        <input type="checkbox"  class="margin-left-20 item-select">
+                        <div title="title" class="title">Title</div>
+                        <div title="Description" class="description">Description</div>
+                        <div class="due-date">10/10/4039</div>
+                        <i class="icon ion-md-create"></i>
+                        <i class="icon ion-md-checkmark"></i>
+                        <i class="icon ion-md-trash"></i>
+                   </div> 
+                  </li> -->
+                </ul>    
+
+          </div>
+          
         </div>
       </div>
     </div>
 
   <!-- CALENDER APP-->  
-    <div id="calendar-app-content" style="display: none">
+    <div class="calendarAppContainer" style="display: none">
       <div class="container">
-        <div class="empty-content">
+        <div class="emptyContent">
           <h4> Nothing to Display Here !!!<h4>
         </div>
       </div>
