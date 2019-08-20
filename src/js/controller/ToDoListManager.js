@@ -2,19 +2,19 @@ import {ToDoItem} from '../models/ToDoItem'
 import {ToDoActionBarView} from '../views/todoApp/ToDoActionBarView'
 import {MODALS_CLASS_NAME,MODAL_TEMPLATE,ACTION_BUTTON_CLASS_NAME} from '../constants'
 import {TodoDataModalView} from '../views/todoApp/TodoDataModalView'
-import {ToDoListView} from '../views/todoApp/ToDoListView'
+import {ToDoItemView} from '../views/todoApp/ToDoItemView'
 import { elements } from '../views/domElements';
 
 export function ToDoListManager(){
     this.toDoListItems = new Map();
     this.toDoListContainer = elements.toDoItemsUlList;
     this.toDoActionBarView= new ToDoActionBarView();
-    this.toDoListView = new ToDoListView();
+    this.toDoItemView = new ToDoItemView();
     this.todoDataModalView = new TodoDataModalView();
 }
 
 ToDoListManager.prototype.init = function() {
-    this.toDoListView.init(this);
+    this.toDoItemView.init(this);
     this.toDoActionBarView.init(this);
 }
 
@@ -124,12 +124,12 @@ ToDoListManager.prototype.onClickTodoItemWrapper = function(event){
 
 ToDoListManager.prototype.renderTodoList = function(){
     if(!this.toDoListItems.size || this.toDoListItems.size === 1){
-        this.toDoListView.toggleEmptyContentMessage(this.toDoListItems.size);
+        this.toDoItemView.toggleEmptyContentMessage(this.toDoListItems.size);
     }
 
     this.toDoListContainer.innerHTML='';
 
     for(let todoItemId of this.toDoListItems.keys()){
-        this.toDoListView.renderTodo(this.toDoListItems.get(todoItemId),this.htmlToElement,this.toDoListContainer);
+        this.toDoItemView.renderTodo(this.toDoListItems.get(todoItemId),this.htmlToElement,this.toDoListContainer);
     }
 }

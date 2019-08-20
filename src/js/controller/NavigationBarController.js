@@ -1,7 +1,5 @@
-
 import {elements} from '../views/domElements'
 import {APPS_CLASS_NAME} from '../constants'
-
 
 export function NavigationBarController(){
     this.currentActiveTab = elements.todoAppNavBar;

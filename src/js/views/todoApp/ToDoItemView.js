@@ -1,14 +1,14 @@
 import {elements} from '../domElements'
 import todoItemTemplate from '../../templates/todoElementTemplate'
 
-export function ToDoListView(){
+export function ToDoItemView(){
 }
 
-ToDoListView.prototype.init = function(todoListManager) {
+ToDoItemView.prototype.init = function(todoListManager) {
     elements.toDoItemsUlList.addEventListener('click',todoListManager.onClickTodoItemWrapper.bind(todoListManager));
 }
 
-ToDoListView.prototype.toggleEmptyContentMessage = function(todoListSize) {
+ToDoItemView.prototype.toggleEmptyContentMessage = function(todoListSize) {
     if(todoListSize){  
         elements.emptyContent.style.display = "none";
         elements.toDoListContainer.style.display = "block";
@@ -18,7 +18,7 @@ ToDoListView.prototype.toggleEmptyContentMessage = function(todoListSize) {
     }
 }
 
-ToDoListView.prototype.renderTodo = function(todoItemObject,htmlToNodeFunction,toDoListContainer){
+ToDoItemView.prototype.renderTodo = function(todoItemObject,htmlToNodeFunction,toDoListContainer){
     let todoTemplate = todoItemTemplate.replace("%id%",todoItemObject.id).
         replace("%title%",todoItemObject.title).
         replace("%description%",todoItemObject.description).
