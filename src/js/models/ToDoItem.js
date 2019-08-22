@@ -1,11 +1,11 @@
 
-export function ToDoItem(toDoItemInfo){
+function ToDoItem(toDoItemInfo){
     this.title = toDoItemInfo.title;
-    this.description = toDoItemInfo.description;
-    this.dueDate = toDoItemInfo.dueDate;
-    this.id = Date.now();
-    this.isCompleted = false;
-    this.isChecked = false;
+    this.description = toDoItemInfo.description || "";
+    this.dueDate = toDoItemInfo.dueDate || "";
+    this.id = toDoItemInfo.id || Date.now().toString();
+    this.isCompleted = toDoItemInfo.isCompleted || false;
+    this.isChecked = toDoItemInfo.isChecked || false;
 }
 
 ToDoItem.prototype.markTodoComplete = function(){
@@ -29,3 +29,5 @@ ToDoItem.prototype.toggleMarkChecked= function(){
     this.isChecked = !this.isChecked;
     return this;
 }
+
+export default ToDoItem;
