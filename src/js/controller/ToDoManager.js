@@ -17,7 +17,7 @@ function ToDoManager(){
 }
 
 ToDoManager.prototype.commitTodoListChanges = function() {
-    window.localStorage.toDoListItems = JSON.stringify(Array.from(this.toDoListItems.entries()));
+    window.localStorage.toDoListItems = JSON.stringify(Array.from(this.toDoListItems.values()));
 }
 
 
@@ -43,12 +43,13 @@ ToDoManager.prototype.validateTodoFieldInfo= function (type,value){
 
 ToDoManager.prototype.setupTodoListData = function(todoListData){
     let localStorageItems = window.localStorage.toDoListItems;
+    let todoListArray = null;
     if(localStorageItems){
-        this.toDoListItems = new Map(JSON.parse(localStorageItems));
-        return ;
+        todoListArray = JSON.parse(localStorageItems);
+    }else{
+         todoListArray = todoListData.todoListItems;
     }
     try{
-        let todoListArray = todoListData.todoListItems;
         if(!todoListArray) {
             console.warn("Parsing of Json object to todo list array failed");
             return;
