@@ -17,7 +17,6 @@ TodoActionBarController.prototype.showDataModal = function() {
   }
 
 TodoActionBarController.prototype.onClickMarkCompleteSelectedTodo = function(){
-    debugger;
     let itemsToUpdate = this.todoManager.getIdsOfTodo("isChecked",true);
     let action=ACTION_BUTTON_CLASS_NAME.MARK_COMPLETE_SELECTED;
     this.todoManager.modifyTodoItemsOfList(itemsToUpdate,action);
