@@ -1,5 +1,7 @@
-import {DomStrings} from '../domStrings'
-export function TodoDataModalView (){
+import {DataModalDomStrings}  from '../../domSelectors/dataModalElementsSelector'
+
+
+function TodoDataModalView (){
 }
 
 TodoDataModalView.prototype.attachDataModal= function(modalToAttach){
@@ -7,52 +9,57 @@ TodoDataModalView.prototype.attachDataModal= function(modalToAttach){
 }
 
 TodoDataModalView.prototype.destroyActiveDataModal= () =>{
-   document.body.removeChild(document.querySelector(DomStrings.modal));
+   document.body.removeChild(document.querySelector(DataModalDomStrings.modal));
    event.stopPropagation();
 }
 
-TodoDataModalView.prototype.bindEvents = function(todoListManager) {
-    let activeModal = document.querySelector(DomStrings.modal);
-    let closeBtn = activeModal.querySelector(DomStrings.modalCloseBtn);
-    let cancelBtn = activeModal.querySelector(DomStrings.modalCancelBtn);
-    let saveBtn = activeModal.querySelector(DomStrings.modalSaveBtn);
-    let updateBtn = activeModal.querySelector(DomStrings.modalUpdateBtn);
-    let deleteOkBtn = activeModal.querySelector(DomStrings.modalDeleteBtn);
+TodoDataModalView.prototype.bindEvents = function(toDoDataModalController) {
+    let activeModal = document.querySelector(DataModalDomStrings.modal);
+    let closeBtn = activeModal.querySelector(DataModalDomStrings.modalCloseBtn);
+    let cancelBtn = activeModal.querySelector(DataModalDomStrings.modalCancelBtn);
+    let saveBtn = activeModal.querySelector(DataModalDomStrings.modalSaveBtn);
+    let updateBtn = activeModal.querySelector(DataModalDomStrings.modalUpdateBtn);
+    let deleteOkBtn = activeModal.querySelector(DataModalDomStrings.modalDeleteBtn);
+    let commitChanges = activeModal.querySelector(DataModalDomStrings.commitChangesBtn);
  
     [closeBtn,cancelBtn].forEach((current) => {
         current.addEventListener('click',
-            todoListManager.todoDataModalView.destroyActiveDataModal);
+        this.destroyActiveDataModal);
     });
 
-    if(saveBtn) saveBtn.addEventListener('click', todoListManager.onClickSaveNewTodo.bind(todoListManager));
-    if(updateBtn) updateBtn.addEventListener('click',todoListManager.onClickUpdateTodo.bind(todoListManager));
-    if(deleteOkBtn) deleteOkBtn.addEventListener('click',todoListManager.onClickDeleteSelectedTodo.bind(todoListManager));
+    if(saveBtn) saveBtn.addEventListener('click', toDoDataModalController.onClickSaveNewTodo.bind(toDoDataModalController));
+    if(updateBtn) updateBtn.addEventListener('click',toDoDataModalController.onClickUpdateTodo.bind(toDoDataModalController));
+    if(deleteOkBtn) deleteOkBtn.addEventListener('click',toDoDataModalController.onClickDeleteConfirmSelectedTodo.bind(toDoDataModalController));
+    if(commitChanges) commitChanges.addEventListener('click',toDoDataModalController.onClickCommitTodoListChanges.bind(toDoDataModalController));
 
     // When the user clicks anywhere outside of the modal, close it
-    window.addEventListener('click', function(event) {
+    window.addEventListener('click', (event) =>{
         if (event.target === activeModal) {
-            todoListManager.todoDataModalView.destroyActiveDataModal();
+            this.destroyActiveDataModal();
         }
     });
 }
 
 TodoDataModalView.prototype.validateTitle = (title)=>{
     if(!title){   
-        document.querySelector(DomStrings.modal).querySelector(DomStrings.titleErrorMessage).style.visibility="visible";
-        document.querySelector(DomStrings.modal).querySelector(DomStrings.toDoTitleInput).focus();
+        document.querySelector(DataModalDomStrings.modal).querySelector(DataModalDomStrings.titleErrorMessage).style.visibility="visible";
+        document.querySelector(DataModalDomStrings.modal).querySelector(DataModalDomStrings.toDoTitleInput).focus();
     }
 }
 
 TodoDataModalView.prototype.getTodoItemModalInfo = () => {
     return { 
-        title:document.querySelector(DomStrings.toDoTitleInput).value,
-        description:document.querySelector(DomStrings.toDoDescriptionInput).value,
-        dueDate:document.querySelector(DomStrings.toDoDueDateInput).value
+        title:document.querySelector(DataModalDomStrings.toDoTitleInput).value,
+        description:document.querySelector(DataModalDomStrings.toDoDescriptionInput).value,
+        dueDate:document.querySelector(DataModalDomStrings.toDoDueDateInput).value
     }
 }
 
 TodoDataModalView.prototype.fillUpdateTodoItemModal = (data) => {
-    document.querySelector(DomStrings.toDoTitleInput).value = data.title;
-    document.querySelector(DomStrings.toDoDescriptionInput).value = data.description;
-    document.querySelector(DomStrings.toDoDueDateInput).value = data.dueDate;
+    document.querySelector(DataModalDomStrings.toDoTitleInput).value = data.title;
+    document.querySelector(DataModalDomStrings.toDoDescriptionInput).value = data.description;
+    document.querySelector(DataModalDomStrings.toDoDueDateInput).value = data.dueDate;
 }
+
+
+export default TodoDataModalView;

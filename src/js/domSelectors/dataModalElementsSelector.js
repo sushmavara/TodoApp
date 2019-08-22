@@ -1,5 +1,5 @@
 
-export const DomStrings = {
+export const DataModalDomStrings = {
     modal : '.modal',
     modalCloseBtn : '.closeButton',
     modalCancelBtn : '.cancel',
@@ -10,6 +10,7 @@ export const DomStrings = {
     toDoDescriptionInput : '.todoDescription',
     toDoDueDateInput : '.todoDueDate',
     titleErrorMessage : '.errorMessage',
+    commitChangesBtn:'.commitChanges',
 
     todoTitle : '.title',
     todoDescription : '.description',

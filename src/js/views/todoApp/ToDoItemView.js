@@ -1,20 +1,20 @@
-import {elements} from '../domElements'
+import {todoContainerSelectors} from '../../domSelectors/todoAppContainerSelector'
 import todoItemTemplate from '../../templates/todoElementTemplate'
 
-export function ToDoItemView(){
+function ToDoItemView(){
 }
 
-ToDoItemView.prototype.init = function(todoListManager) {
-    elements.toDoItemsUlList.addEventListener('click',todoListManager.onClickTodoItemWrapper.bind(todoListManager));
+ToDoItemView.prototype.init = function(todoItemController) {
+    todoContainerSelectors.toDoItemsUlList.addEventListener('click',todoItemController.onClickTodoItemWrapper.bind(todoItemController));
 }
 
 ToDoItemView.prototype.toggleEmptyContentMessage = function(todoListSize) {
     if(todoListSize){  
-        elements.emptyContent.style.display = "none";
-        elements.toDoListContainer.style.display = "block";
+        todoContainerSelectors.emptyContent.style.display = "none";
+        todoContainerSelectors.toDoListContainer.style.display = "block";
     }else {
-        elements.toDoListContainer.style.display = "none";
-        elements.emptyContent.style.display = "flex";
+        todoContainerSelectors.toDoListContainer.style.display = "none";
+        todoContainerSelectors.emptyContent.style.display = "flex";
     }
 }
 
@@ -29,3 +29,5 @@ ToDoItemView.prototype.renderTodo = function(todoItemObject,htmlToNodeFunction,t
     if(todoItemObject.isChecked) toDoNode.querySelector('[data-action = "markTodoChecked"]').checked = true;
     toDoListContainer.appendChild(toDoNode);
 }
+
+export default ToDoItemView;

@@ -1,10 +1,13 @@
-import {elements} from '../domElements'
+import {todoActionHeaderSelectors} from '../../domSelectors/todoAppActionBarSelector'
 
-export function ToDoActionBarView(){
+function ToDoActionBarView(){
 }
 
-ToDoActionBarView.prototype.init = (todoListManager) => {
-    elements.addNewTodoBtn.addEventListener('click',todoListManager.showDataModal.bind(todoListManager));
-    elements.deleteSelectedTodoBtn.addEventListener('click',todoListManager.showDataModal.bind(todoListManager));
-    elements.markCompleteOnSelectedTodo.addEventListener('click',todoListManager.onClickMarkCompleteSelectedTodo.bind(todoListManager));
+ToDoActionBarView.prototype.init = (toDoActionBarController) => {
+    todoActionHeaderSelectors.addNewTodoBtn.addEventListener('click',toDoActionBarController.showDataModal.bind(toDoActionBarController));
+    todoActionHeaderSelectors.deleteSelectedTodoBtn.addEventListener('click',toDoActionBarController.showDataModal.bind(toDoActionBarController));
+    todoActionHeaderSelectors.markCompleteOnSelectedTodo.addEventListener('click',toDoActionBarController.onClickMarkCompleteSelectedTodo.bind(toDoActionBarController));
+    todoActionHeaderSelectors.commitTodoListChanges.addEventListener('click',toDoActionBarController.showDataModal.bind(toDoActionBarController));
 }
+
+export default ToDoActionBarView;

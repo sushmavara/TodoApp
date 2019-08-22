@@ -105,12 +105,12 @@ nav{
 }
 
 .addNewTodo{
-    margin-left: 5%;
+    margin-left: 6%;
 }
 
 .updateActions{
     justify-content: space-evenly;
-    width:25%;
+    width:35%;
 }
 
 hr{
