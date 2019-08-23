@@ -22,7 +22,7 @@ ToDoManager.prototype.commitTodoListChanges = function() {
 
 
 ToDoManager.prototype.init = function(todoListData) {
-    this.setupTodoListData(todoListData);
+    this.setupTodoListData(JSON.parse(todoListData));
     this.todoActionBarController.init(this);
     this.todoItemController.init(this);
     this.toDoDataModalController.init(this);
