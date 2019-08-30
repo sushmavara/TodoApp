@@ -20,6 +20,8 @@
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.4.4"
+    "@babel/polyfill": "^7.4.4",
+    "circular-dependency-plugin": "^5.2.0",
+    "madge": "^3.4.4"
   }
 }
