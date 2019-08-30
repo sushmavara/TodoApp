@@ -1,4 +1,3 @@
-
 function ToDoItem(toDoItemInfo){
     this.title = toDoItemInfo.title;
     this.description = toDoItemInfo.description || "";

@@ -1,4 +1,4 @@
-import App from './controller/App'
+import App from './App'
 
 
 let todoListData = '{ "todoListItems": [{"description":null,"dueDate":null,"id":null,"isChecked":1,"isCompleted":null,"title":"Todo item 1"},'+
@@ -13,6 +13,9 @@ let todoListData = '{ "todoListItems": [{"description":null,"dueDate":null,"id":
 '{"description":"","dueDate":"2020-08-10","id":"10","isChecked":true,"isCompleted":false,"title":"todo item 10"}]}';
 
 // let todoListData=[];
+
+
+// let todoListData = '{ "todoListItems": [{"description":"","dueDate":"2020-08-10","id":"10","isChecked":true,"isCompleted":false,"title":"todo item 10"}]}';
 
 let startApp= new App();
 startApp.initNavigation();

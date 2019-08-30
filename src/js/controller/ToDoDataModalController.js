@@ -1,16 +1,24 @@
 import TodoDataModalView from '../views/todoApp/TodoDataModalView'
 import {ACTION_BUTTON_CLASS_NAME} from '../constants/todoActionConstants'
+import PubSub from '../PubSub'
 
 function ToDoDataModalController(){
     this.todoDataModalView = new TodoDataModalView();
 }
 
-ToDoDataModalController.prototype.init = function(todoManager) {
-   this.todoManager = todoManager;
+ToDoDataModalController.prototype.init = function() {
+    this.initSubscribers();
 }
 
-ToDoDataModalController.prototype.displayModal= function(modalTemplate) {
-    this.todoDataModalView.attachDataModal(this.todoManager.htmlToElement(modalTemplate));
+ToDoDataModalController.prototype.initSubscribers = function() {
+    PubSub.subscribe('saveNewTodo',ToDoDataModalController.prototype.onClickSaveNewTodo.bind(this));
+    PubSub.subscribe('updateTodo',ToDoDataModalController.prototype.onClickUpdateTodo.bind(this));
+    PubSub.subscribe('deleteSelectedTodo',ToDoDataModalController.prototype.onClickDeleteConfirmSelectedTodo.bind(this));
+    PubSub.subscribe('commitTodoChanges',ToDoDataModalController.prototype.onClickCommitTodoListChanges.bind(this));
+}
+
+ToDoDataModalController.prototype.displayModal= function(modalNode) {
+    this.todoDataModalView.attachDataModal(modalNode);
     this.todoDataModalView.bindEvents(this);
 }
 
@@ -18,43 +26,39 @@ ToDoDataModalController.prototype.fillModal= function(todoInfo) {
     this.todoDataModalView.fillUpdateTodoItemModal(todoInfo);
 }
 
-ToDoDataModalController.prototype.onClickSaveNewTodo = function(event){
-    const toDoInfo = this.todoDataModalView.getTodoItemModalInfo();
+ToDoDataModalController.prototype.onClickSaveNewTodo = function(toDoInfo){
     this.todoDataModalView.validateTitle(toDoInfo.title.trim());
     if(toDoInfo.title.trim()){
-        this.todoManager.addNewTodoItem(toDoInfo);
+        PubSub.publish('addNewTodoItem',toDoInfo);
         this.todoDataModalView.destroyActiveDataModal();
     }
-    this.todoManager.renderTodoList();
+    PubSub.publish('renderTodoList');
     event.stopPropagation();
 }
 
-ToDoDataModalController.prototype.onClickUpdateTodo = function(event){
-    const toDoInfo= this.todoDataModalView.getTodoItemModalInfo();
+ToDoDataModalController.prototype.onClickUpdateTodo = function(toDoInfo){
     this.todoDataModalView.validateTitle(toDoInfo.title.trim());
     if(toDoInfo.title.trim()){
-        this.todoManager.updateTodoItem(toDoInfo);
+        PubSub.publish('updateTodoItem',toDoInfo);
+        PubSub.publish('activeItemToEditChanged',null);
         this.todoDataModalView.destroyActiveDataModal();
-        this.todoManager.setActiveTodoToEdit(null);
     }
-    this.todoManager.renderTodoList();
+    PubSub.publish('renderTodoList');
     event.stopPropagation();
 }
 
 ToDoDataModalController.prototype.onClickDeleteConfirmSelectedTodo = function(){
-    let itemsToDelete = this.todoManager.getIdsOfTodo("isChecked",true);
     let action=ACTION_BUTTON_CLASS_NAME.CONFIRM_DELETE_TODO;
-    this.todoManager.modifyTodoItemsOfList(itemsToDelete,action); 
+    PubSub.publish('modifyTodoItemsOfList',action); 
     this.todoDataModalView.destroyActiveDataModal();
     event.stopPropagation();
 }
 
 ToDoDataModalController.prototype.onClickCommitTodoListChanges = function(){
-    this.todoManager.commitTodoListChanges();
+    PubSub.publish('commitTodoListChanges');
     this.todoDataModalView.destroyActiveDataModal();
     event.stopPropagation();
 }
-
 
 
 export default ToDoDataModalController;

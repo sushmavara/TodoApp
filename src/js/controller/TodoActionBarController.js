@@ -1,26 +1,29 @@
 
 import ToDoActionBarView from '../views/todoApp/ToDoActionBarView'
 import {ACTION_BUTTON_CLASS_NAME} from '../constants/todoActionConstants'
+import PubSub from '../PubSub'
 
 function TodoActionBarController(){
     this.todoActionBarView = new ToDoActionBarView();
 }
 
-TodoActionBarController.prototype.init = function(todoManager) {
-    this.todoActionBarView.init(this);
-    this.todoManager = todoManager;
+TodoActionBarController.prototype.init = function() {
+    this.todoActionBarView.init();
+    this.initSubscribers();
 }
 
-TodoActionBarController.prototype.showDataModal = function() {
-    const modalAction = event.target.getAttribute("data-modal");
-    this.todoManager.showAndFillDataModal(modalAction);
-  }
+TodoActionBarController.prototype.initSubscribers = function() {
+    PubSub.subscribe('triggerShowModal',this.showDataModal.bind(this));
+    PubSub.subscribe('onClickMarkCompleteSelectedTodo',TodoActionBarController.prototype.onClickMarkCompleteSelectedTodo.bind(this));
+}
 
 TodoActionBarController.prototype.onClickMarkCompleteSelectedTodo = function(){
-    let itemsToUpdate = this.todoManager.getIdsOfTodo("isChecked",true);
     let action=ACTION_BUTTON_CLASS_NAME.MARK_COMPLETE_SELECTED;
-    this.todoManager.modifyTodoItemsOfList(itemsToUpdate,action);
+    PubSub.publish('modifyTodoItemsOfList',action);
     event.stopPropagation();
+}
+TodoActionBarController.prototype.showDataModal = function(modalAction){
+    PubSub.publish('showAndFillDataModal',modalAction);
 }
 
 export default TodoActionBarController;

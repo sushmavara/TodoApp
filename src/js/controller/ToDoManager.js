@@ -6,6 +6,7 @@ import {MODALS_CLASS_NAME} from '../constants/dataModalConstants'
 import {MODAL_TEMPLATE} from '../constants/dataModalConstants'
 import {ACTION_BUTTON_CLASS_NAME} from '../constants/todoActionConstants'
 import { todoContainerSelectors } from '../domSelectors/todoAppContainerSelector';
+import PubSub from '../PubSub'
 
 function ToDoManager(){
     this.toDoListItems = new Map();
@@ -20,13 +21,24 @@ ToDoManager.prototype.commitTodoListChanges = function() {
     window.localStorage.toDoListItems = JSON.stringify(Array.from(this.toDoListItems.values()));
 }
 
+ToDoManager.prototype.initEventSubsribers = function(){
+    PubSub.subscribe('showAndFillDataModal',ToDoManager.prototype.showAndFillDataModal.bind(this));
+    PubSub.subscribe('modifyTodoItemsOfList',ToDoManager.prototype.modifyTodoItemsOfList.bind(this));
+    PubSub.subscribe('activeItemToEditChanged',ToDoManager.prototype.setActiveTodoToEdit.bind(this));
+    PubSub.subscribe('commitTodoListChanges',ToDoManager.prototype.commitTodoListChanges.bind(this));
+    PubSub.subscribe('addNewTodoItem',ToDoManager.prototype.addNewTodoItem.bind(this));
+    PubSub.subscribe('updateTodoItem',ToDoManager.prototype.updateTodoItem.bind(this));
+    PubSub.subscribe('renderTodoList',ToDoManager.prototype.renderTodoList.bind(this));
+}
 
 ToDoManager.prototype.init = function(todoListData) {
-    this.setupTodoListData(JSON.parse(todoListData));
-    this.todoActionBarController.init(this);
-    this.todoItemController.init(this);
-    this.toDoDataModalController.init(this);
+    this.initEventSubsribers();
+    this.setupTodoListData(todoListData && JSON.parse(todoListData));
+    this.todoActionBarController.init();
+    this.todoItemController.init();
+    this.toDoDataModalController.init();
     this.renderTodoList();
+    
 }
 ToDoManager.prototype.validateTodoFieldInfo= function (type,value){
     if(value === null) return null;
@@ -47,7 +59,7 @@ ToDoManager.prototype.setupTodoListData = function(todoListData){
     if(localStorageItems){
         todoListArray = JSON.parse(localStorageItems);
     }else{
-         todoListArray = todoListData.todoListItems;
+         todoListArray = todoListData && todoListData.todoListItems;
     }
     try{
         if(!todoListArray) {
@@ -55,6 +67,7 @@ ToDoManager.prototype.setupTodoListData = function(todoListData){
             return;
         }
         todoListArray.forEach((current) => {
+            debugger;
             let todoInfo = {
                 id : this.validateTodoFieldInfo("string",current.id),
                 title: this.validateTodoFieldInfo("string",current.title),
@@ -63,7 +76,7 @@ ToDoManager.prototype.setupTodoListData = function(todoListData){
                 isCompleted: this.validateTodoFieldInfo("boolean",current.isCompleted),
             }
             if( (todoInfo.id !== null && todoInfo.id.trim() !== "") && ((todoInfo.title !== null) && todoInfo.title.trim() !== "")) {
-                this.toDoListItems.set(todoInfo.id,new ToDoItem(todoInfo));
+                this.addNewTodoItem(todoInfo);
             }
         });
     }catch (error){
@@ -82,7 +95,9 @@ ToDoManager.prototype.htmlToElement = function(html) {
     return template.content.firstChild;
 }
 
-ToDoManager.prototype.modifyTodoItemsOfList = function(todoIdsToModify,action) {
+ToDoManager.prototype.modifyTodoItemsOfList = function(action,itemID) {
+    let todoIdsToModify=itemID;
+    if(!itemID) todoIdsToModify= this.getCheckedTodoItemIds();
     for( let toDoItemId of todoIdsToModify){
         const todoItemObj = this.toDoListItems.get(toDoItemId);
         switch(action)
@@ -103,7 +118,6 @@ ToDoManager.prototype.modifyTodoItemsOfList = function(todoIdsToModify,action) {
     this.renderTodoList();
 }
 
-
 ToDoManager.prototype.addNewTodoItem = function(toDoInfo){
     const newTodo = new ToDoItem(toDoInfo);
     this.toDoListItems.set(newTodo.id,newTodo);
@@ -117,15 +131,15 @@ ToDoManager.prototype.updateTodoItem = function(toDoInfo){
 ToDoManager.prototype.showAndFillDataModal = function(modalAction) {
     const modalKeyName = Object.keys(MODALS_CLASS_NAME).find(key => MODALS_CLASS_NAME[key] === modalAction);
     const modalTemplate = MODAL_TEMPLATE[modalKeyName];
-    this.toDoDataModalController.displayModal(modalTemplate);
+    this.toDoDataModalController.displayModal(this.htmlToElement(modalTemplate));
     if(this.activeTodoToEdit){
         this.toDoDataModalController.fillModal(this.toDoListItems.get(this.activeTodoToEdit));
     }
   }
 
-ToDoManager.prototype.getIdsOfTodo = function(filterKey,filterValue){
+ToDoManager.prototype.getCheckedTodoItemIds = function(){
     return Array.from(this.toDoListItems.entries()).reduce((result,current)=>{
-        if(current[1][filterKey] === filterValue) result.push(current[0]);
+        if(current[1]["isChecked"] === true) result.push(current[0]);
         return result;
     },[]);
 }

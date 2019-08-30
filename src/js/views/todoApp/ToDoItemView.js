@@ -1,11 +1,12 @@
 import {todoContainerSelectors} from '../../domSelectors/todoAppContainerSelector'
 import todoItemTemplate from '../../templates/todoElementTemplate'
+import PubSub from '../../PubSub'
 
 function ToDoItemView(){
 }
 
-ToDoItemView.prototype.init = function(todoItemController) {
-    todoContainerSelectors.toDoItemsUlList.addEventListener('click',todoItemController.onClickTodoItemWrapper.bind(todoItemController));
+ToDoItemView.prototype.init = function() {
+    todoContainerSelectors.toDoItemsUlList.addEventListener('click',this.onClickTodoItemWrapper);
 }
 
 ToDoItemView.prototype.toggleEmptyContentMessage = function(todoListSize) {
@@ -17,6 +18,17 @@ ToDoItemView.prototype.toggleEmptyContentMessage = function(todoListSize) {
         todoContainerSelectors.emptyContent.style.display = "flex";
     }
 }
+
+ToDoItemView.prototype.onClickTodoItemWrapper = function(event){
+    const itemID = event.target.parentNode.getAttribute('target-id');
+    if(itemID){
+        const action = event.target.getAttribute('data-action');
+        const dataModal = event.target.getAttribute("data-modal");
+        PubSub.publish('onClickTodoItemWrapper',itemID,action,dataModal);
+    }
+    event.stopPropagation();
+}
+
 
 ToDoItemView.prototype.renderTodo = function(todoItemObject,htmlToNodeFunction,toDoListContainer){
     let todoTemplate = todoItemTemplate.replace("%id%",todoItemObject.id).

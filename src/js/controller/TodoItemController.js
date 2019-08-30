@@ -1,30 +1,31 @@
 import {ACTION_BUTTON_CLASS_NAME} from '../constants/todoActionConstants'
 import ToDoItemView from '../views/todoApp/ToDoItemView'
+import PubSub from '../PubSub'
 
 function ToDoItemController(){
     this.toDoItemView = new ToDoItemView();
 }
 
-ToDoItemController.prototype.init = function(todoManager) {
-    this.toDoItemView.init(this);
-    this.todoManager = todoManager;
+ToDoItemController.prototype.init = function() {
+    this.toDoItemView.init();
+    this.initSubscribers();
 }
 
-ToDoItemController.prototype.onClickTodoItemWrapper = function(event){
-    const itemID = event.target.parentNode.getAttribute('target-id');
-    if(itemID){
-        const action = event.target.getAttribute('data-action');
+ToDoItemController.prototype.initSubscribers = function(){
+    PubSub.subscribe('onClickTodoItemWrapper',ToDoItemController.prototype.onClickTodoItemWrapper.bind(this));
+}
+
+ToDoItemController.prototype.onClickTodoItemWrapper = function(itemID,action,dataModal){
         switch(action){
             case ACTION_BUTTON_CLASS_NAME.EDIT_TODO:
-                this.todoManager.setActiveTodoToEdit(itemID);
-                this.todoManager.showAndFillDataModal(event.target.getAttribute("data-modal"));
+                PubSub.publish('activeItemToEditChanged',itemID);
+                PubSub.publish('showAndFillDataModal',dataModal);
                 break;
             case ACTION_BUTTON_CLASS_NAME.CONFIRM_DELETE_TODO:
             case ACTION_BUTTON_CLASS_NAME.MARK_COMPLETE_TODO:
             case ACTION_BUTTON_CLASS_NAME.MARK_TODO_CHECKED:
-                this.todoManager.modifyTodoItemsOfList([itemID],action);     
+                PubSub.publish('modifyTodoItemsOfList',action,[itemID]); 
         } 
-    }
     event.stopPropagation();
 }
 

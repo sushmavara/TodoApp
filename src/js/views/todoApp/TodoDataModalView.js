@@ -1,4 +1,5 @@
 import {DataModalDomStrings}  from '../../domSelectors/dataModalElementsSelector'
+import PubSub from '../../PubSub'
 
 
 function TodoDataModalView (){
@@ -13,7 +14,7 @@ TodoDataModalView.prototype.destroyActiveDataModal= () =>{
    event.stopPropagation();
 }
 
-TodoDataModalView.prototype.bindEvents = function(toDoDataModalController) {
+TodoDataModalView.prototype.bindEvents = function() {
     let activeModal = document.querySelector(DataModalDomStrings.modal);
     let closeBtn = activeModal.querySelector(DataModalDomStrings.modalCloseBtn);
     let cancelBtn = activeModal.querySelector(DataModalDomStrings.modalCancelBtn);
@@ -27,10 +28,10 @@ TodoDataModalView.prototype.bindEvents = function(toDoDataModalController) {
         this.destroyActiveDataModal);
     });
 
-    if(saveBtn) saveBtn.addEventListener('click', toDoDataModalController.onClickSaveNewTodo.bind(toDoDataModalController));
-    if(updateBtn) updateBtn.addEventListener('click',toDoDataModalController.onClickUpdateTodo.bind(toDoDataModalController));
-    if(deleteOkBtn) deleteOkBtn.addEventListener('click',toDoDataModalController.onClickDeleteConfirmSelectedTodo.bind(toDoDataModalController));
-    if(commitChanges) commitChanges.addEventListener('click',toDoDataModalController.onClickCommitTodoListChanges.bind(toDoDataModalController));
+    if(saveBtn) saveBtn.addEventListener('click', this.onClickSaveNewTodo.bind(this));
+    if(updateBtn) updateBtn.addEventListener('click',this.onClickUpdateTodo.bind(this));
+    if(deleteOkBtn) deleteOkBtn.addEventListener('click',this.onClickDeleteConfirmSelectedTodo.bind(this));
+    if(commitChanges) commitChanges.addEventListener('click',this.onClickCommitTodoListChanges.bind(this));
 
     // When the user clicks anywhere outside of the modal, close it
     window.addEventListener('click', (event) =>{
@@ -60,6 +61,27 @@ TodoDataModalView.prototype.fillUpdateTodoItemModal = (data) => {
     document.querySelector(DataModalDomStrings.toDoDescriptionInput).value = data.description;
     document.querySelector(DataModalDomStrings.toDoDueDateInput).value = data.dueDate;
 }
+
+
+TodoDataModalView.prototype.onClickSaveNewTodo = function(event){
+    PubSub.publish('saveNewTodo',this.getTodoItemModalInfo());
+    event.stopPropagation();
+}
+
+TodoDataModalView.prototype.onClickUpdateTodo = function(event){
+    PubSub.publish('updateTodo',this.getTodoItemModalInfo());
+    event.stopPropagation();
+}
+
+TodoDataModalView.prototype.onClickDeleteConfirmSelectedTodo = function(){
+    PubSub.publish('deleteSelectedTodo');
+}
+
+TodoDataModalView.prototype.onClickCommitTodoListChanges = function(){
+    PubSub.publish('commitTodoChanges');
+}
+
+
 
 
 export default TodoDataModalView;
